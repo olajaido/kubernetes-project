@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projdb
+  labels:
+    app: projdb
+spec:
+  selector:
+    matchLabels:
+      app: projdb
+  replicas: 1    
+  template:
+    metadata:
+      labels:
+        app: projdb
+    spec:
+      containers:
+        - name: projdb
+          image: olajaido/vprofiledb:V1
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: projdb-data
+          ports:
+            - name: projdb-port
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROT_PASSWORD
+              valueFrom:
+                secretKeyRef: 
+                  name: app-secret
+                  key: db-pass
+      nodeSelector:
+        zone: eu-west-2a
+      volumes:
+        - name: projdb-data      
+          awsElasticBlockStore:
+            volumeID: vol-056f747cc1ae9c075
+            fsType: ext4
+      initContainers:
+        - name: busybox
+          image: busybox:latest
+          args: ["rm", "-rf", "/var/lib/mysql/lost+found"]
+          volumeMounts:
+            - name: projdb-data
+              mountPath: /var/lib/mysql               
+
+
