@@ -20,11 +20,5 @@ spec:
           ports:
             - name: projapp-port
               containerPort: 8080
-      initContainers: 
-        - name: init-mydb
-          image: busybox
-          command: ['sh', '-c', 'until nslookup projdb; do echo waiting for mydb; sleep 2; done;']
-        - name: init-memcache
-          image: busybox
-          command: ['sh', '-c', 'until nslookup projmc; do echo waiting for cache; sleep 2; done;']      
+          
         
