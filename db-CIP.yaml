@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: projdb  
+spec:
+  ports:
+   - port: 3306
+     targetPort: projdb-port
+     protocol: TCP
+  selector: 
+    app: projdb    
+  type: ClusterIP

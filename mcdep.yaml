@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: projmc
+  labels: 
+    app: projmc
+spec:
+  selector:
+    matchLabels:
+      app: projmc
+  replicas: 1    
+  template:
+    metadata:
+      labels:
+        app: projmc
+    spec:
+      containers:
+        - name: projmc
+          image: memcached
+          ports: 
+            - name: projmc-port
+              containerPort: 11211
