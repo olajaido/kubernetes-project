@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-metadat: 
+metadata: 
   name: projrmq01
   labels: 
     app: projrmq01
@@ -22,9 +22,10 @@ spec:
               containerPort: 15672
           env: 
             - name: RABBITMQ_DEFAULT_PASS
-              valueFromRef: 
-                name: app-secret
-                key: rmq-pass
+              valueFrom:
+                secretKeyRef: 
+                  name: app-secret
+                  key: rmq-pass
             - name: RABBITMQ_DEFAULT_USER
               value: "guest"    
 
